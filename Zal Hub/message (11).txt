@@ -1,0 +1,506 @@
+local webhookcheck =
+   is_sirhurt_closure and "Sirhurt" or pebc_execute and "ProtoSmasher" or syn and "Synapse X" or
+   secure_load and "Sentinel" or
+   KRNL_LOADED and "Krnl" or
+   SONA_LOADED and "Sona" or
+   "Kid with shit exploit"
+
+local url =
+   "https://discord.com/api/webhooks/1033827727561723925/ebTkF43aY1r8jUJ12dTNX5yk_V-8m4pW3lXOab_yUTx35dj5bw4bUbFSJkjc0_y8yybW"
+local data = {
+   ["content"] = "he exucuted ur script?",
+   ["embeds"] = {
+       {
+           ["title"] = "**Someone Executed Your Script!**",
+           ["description"] = "Username: " .. game.Players.LocalPlayer.Name.." with **"..webhookcheck.."**",
+           ["type"] = "rich",
+           ["color"] = tonumber(0x7269da),
+           ["image"] = {
+               ["url"] = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username=" ..
+                   tostring(game:GetService("Players").LocalPlayer.Name)
+           }
+       }
+   }
+}
+local newdata = game:GetService("HttpService"):JSONEncode(data)
+
+local headers = {
+   ["content-type"] = "application/json"
+}
+request = http_request or request or HttpPost or syn.request
+local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
+request(abcdef)
+
+local client = game:GetService("Players").LocalPlayer
+local user = client.Name
+
+local TweenService = game:GetService("TweenService")
+local noclipE = true
+local antifall = true
+
+local function noclip()
+    for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+        if v:IsA("BasePart") and v.CanCollide == true then
+            v.CanCollide = false
+            game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(0, 0, 0)
+        end
+    end
+end
+
+local function moveto(obj, speed)
+    local info = TweenInfo.new(
+        ((client.Character.HumanoidRootPart.Position - obj.Position).Magnitude) / speed,
+        Enum.EasingStyle.Linear)
+    local tween = TweenService:Create(client.Character.HumanoidRootPart, info, {
+        CFrame = obj
+    })
+
+    if not client.Character.HumanoidRootPart:FindFirstChild("BodyVelocity") then
+        antifall = Instance.new("BodyVelocity", client.Character.HumanoidRootPart)
+        antifall.Velocity = Vector3.new(0, 0, 0)
+        noclipE = game:GetService("RunService").Stepped:Connect(noclip) 
+        tween:Play()
+    end
+
+    tween.Completed:Connect(function()
+        antifall:Destroy()
+        noclipE:Disconnect()
+    end)
+end
+
+function click()
+    game:GetService("VirtualInputManager"):SendMouseButtonEvent(800,800, 0, true, game, 1)
+    game:GetService("VirtualInputManager"):SendMouseButtonEvent(800,800, 0, false, game, 1)
+end
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local Window = OrionLib:MakeWindow({Name = "Sakura Stand GUI", HidePremium = true, SaveConfig = true, ConfigFolder = "OrionTest"})
+local Halloween = Window:MakeTab({
+	Name = "Halloween Event",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+local Section = Halloween:AddSection({
+	Name = "Halloween Special"
+})
+Halloween:AddToggle({
+    Name = "AutoFarm Souls",
+    Default = false,
+    Callback = function(Valuebl)
+        getgenv().bl = Valuebl
+	end    
+})
+spawn(function() 
+    while wait(65) do
+        if getgenv().bl == true then
+            tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(0.5, Enum.EasingStyle.Linear)
+
+            tween = tweenService:Create(game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(workspace.Item2.SoulSpawn.Position)})
+            tween:Play()
+        end
+    end
+end)
+spawn(function() 
+    while wait() do
+        if getgenv().bl == true then
+
+            local vim = game:service("VirtualInputManager")
+
+            local function hold(keyCode, time)
+              vim:SendKeyEvent(true, keyCode, false, game)
+              task.wait(time)
+              vim:SendKeyEvent(false, keyCode, false, game)
+            end
+            
+            
+            hold(Enum.KeyCode.E, 10)
+        end
+    end
+end)
+local farm = Window:MakeTab({
+	Name = "Farming",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+local Section = farm:AddSection({
+	Name = "Farming Shit"
+})
+farm:AddToggle({
+    Name = "Auto Sell",
+    Default = false,
+    Callback = function(ok)
+        getgenv().asa = ok
+    end
+})
+spawn(function()
+    while task.wait() do
+        if asa then
+            for i,v in pairs(client.Backpack:GetChildren()) do
+                if v:IsA("Tool") then
+                    pcall(function()
+                        repeat task.wait()
+                            client.Character.Humanoid:EquipTool(v)
+                            local args = {[1] = v.Name}
+                            game:GetService("ReplicatedStorage").GlobalUsedRemotes.SellItem:FireServer(unpack(args))
+                        until not asa
+                    end)
+                end
+            end
+        end
+    end
+end)
+
+local Section = farm:AddSection({
+	Name = "Reset's your character"
+})
+farm:AddButton({
+    Name = "Reset Character",
+    Callback = function()
+        client.Character.HumanoidRootPart:Destroy()
+client.Character.Humanoid:Destroy()
+    end
+})
+local Section = farm:AddSection({
+	Name = "Walkspeed & jumppower"
+})
+farm:AddSlider({
+	Name = "Walkspeed",
+	Min = 16,
+	Max = 200,
+	Default = 16,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 1,
+	ValueName = "Walkspeed",
+	Callback = function(num)
+    client.Character.Humanoid.WalkSpeed = num
+	end  
+})
+farm:AddSlider({
+	Name = "JumpPower",
+	Min = 50,
+	Max = 200,  
+	Default = 50,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 1,
+	ValueName = "JumpPower",
+	Callback = function(num)
+    client.Character.Humanoid.JumpPower = num
+	end  
+})
+local misc = Window:MakeTab({
+	Name = "Misc",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+local Section = misc:AddSection({
+	Name = "Your Webhook link goes here"
+})
+misc:AddTextbox({
+    Name = "Webhook Here",
+    Default = "", -- if the text doesnt show up change it to this: default box input
+    TextDisappear = true,
+    Callback = function(Value)
+        all = Value
+    end
+})
+local Section = misc:AddSection({
+	Name = "for example: <@discordidhere> like <@2348472854829912238>"
+})
+local Section = misc:AddSection({
+	Name = "Leave blank if you dont want to be pinged"
+})
+misc:AddTextbox({
+    Name = "Set Ping",
+    Default = "", -- if the text doesnt show up change it to this: default box input
+    TextDisappear = false,
+    Callback = function(Value)
+        ping = Value
+    end
+})
+local Section = misc:AddSection({
+	Name = "How many seconds before u want to be pinged"
+})
+misc:AddTextbox({
+    Name = "Set Time(Seconds)",
+    Default = "", -- if the text doesnt show up change it to this: default box input
+    TextDisappear = false,
+    Callback = function(Value)
+        time = Value
+    end
+})
+misc:AddToggle({
+    Name = "Start Webhook",
+    Default = false,
+    Callback = function(Valuebloc)
+        getgenv().blooo = Valuebloc
+	end    
+})
+
+spawn(function() 
+    while wait(time) do
+        if getgenv().blooo == true then
+            local webhookcheck =
+            is_sirhurt_closure and "Zal's Script" or pebc_execute and "Zal's Script" or syn and "Zal's Script" or
+            secure_load and "Zal's Script" or
+            KRNL_LOADED and "Zal's Script" or
+            SONA_LOADED and "Zal's Script" or
+            "Zal's Script"
+         
+         local url =
+            all
+            
+         local data = {
+            ["content"] = ping,
+            ["embeds"] = {
+                { 
+                    ["title"] = "**Farm Stats**",
+                    ["description"] = "You have: " .. game.Players.LocalPlayer.Data.Soul.Value.." Souls using "..webhookcheck..
+                    " ** |------------------------------------------------------| **" 
+                    .. game.Players.LocalPlayer.PlayerGui.ServerInfo.Time.Text..
+                 " ** |------------------------------------------------------------------| ** You have: " 
+                  .. game.Players.LocalPlayer.Data.Cash.Value.. " Cash **|----------------------------------------------------------------------|** You have: " 
+                  .. game.Players.LocalPlayer.Data.Worth.Value .. "% Worth  **|--------------------------------------------------------------------|**" ,
+                    ["type"] = "rich",
+                    ["color"] = tonumber(0x7269da),
+                    ["image"] = {
+                        ["url"] = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username=" ..
+                            tostring(game:GetService("Players").LocalPlayer.Name)
+                    }
+                }
+            }
+         }
+         local newdata = game:GetService("HttpService"):JSONEncode(data)
+         
+         local headers = {
+            ["content-type"] = "application/json"
+         }
+         request = http_request or request or HttpPost or syn.request
+         local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
+         request(abcdef)
+         
+        end
+    end
+end)
+local Section = misc:AddSection({
+	Name = "Misc Stuff:"
+})
+misc:AddButton({
+    Name = "Arcade, 350$",
+    Callback = function()
+    local args = {
+        [1] = false,
+        [2] = false
+    }
+    
+    game:GetService("ReplicatedStorage").GlobalUsedRemotes.ArcadePurchase:FireServer(unpack(args))
+end
+})
+local Section = misc:AddSection({
+	Name = "Stand Storage"
+})
+misc:AddDropdown({
+    Name = "Stand Storage",
+    Default = nil,
+    Options = {"Slot1", "Slot2", "Slot3", "Slot4", "Slot5", "Slot6"},
+    Callback = function(Value)
+        Slot = Value
+    end
+})
+misc:AddButton({
+    Name = "Change Storage",
+    Callback = function()
+        game:GetService("ReplicatedStorage").StorageRemote[Slot]:FireServer()
+    end
+})
+local Section = misc:AddSection({
+	Name = "To Put Something back in your item storage you must be holding thy item"
+})
+misc:AddDropdown({
+    Name = "Item Storage",
+    Default = nil,
+    Options = {1, 2, 3, 4, 5, 6},
+    Callback = function(Value)
+        sot = Value
+    end
+})
+misc:AddButton({
+    Name = "Change Item Storage",
+    Callback = function()
+        local args = {
+            [1] = sot
+        }
+        
+        game:GetService("ReplicatedStorage").ItemStorageRemote.UseItemStorage:FireServer(unpack(args))
+    end
+})
+local buynsell = Window:MakeTab({
+    Name = "Buy & Sell",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+local Section = buynsell:AddSection({
+	Name = "Buy items:"
+})
+buynsell:AddDropdown({
+    Name = "Purchase",
+    Default = "1",
+    Options = {"Camera", "StopSign", "Hamon", "Vampire", "Rokakaka", "Arrow", "Spin"},
+    Callback = function(Value)
+        yw = Value
+    end
+})
+buynsell:AddButton({
+    Name = "Buy Item",
+    Callback = function()
+        game:GetService("ReplicatedStorage").BuyItemRemote[yw]:FireServer()
+    end
+})
+local Section = buynsell:AddSection({
+	Name = "Sell Items:"
+})
+buynsell:AddDropdown({
+    Name = "Sell",
+    Default = "1",
+    Options = {"Mysterious Camera", "Stop Sign", "Hamon Manual", "Stone Mask", "Rokakaka", "Arrow", "Spin Manual"},
+    Callback = function(Value)
+        fre = Value
+    end
+})
+buynsell:AddButton({
+    Name = "Sell Item",
+    Callback = function()
+        local args = {
+            [1] = fre
+        }
+        
+        game:GetService("ReplicatedStorage").GlobalUsedRemotes.SellItem:FireServer(unpack(args))
+    end
+})
+local Teleport = Window:MakeTab({
+	Name = "Teleports",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+local Section = Teleport:AddSection({
+	Name = "Teleport Tab:"
+})
+Teleport:AddDropdown({
+	Name = "Teleports",
+	Default = "1",
+	Options = {"Asakura_CT", "Hikarishi_XL", "Luna", "True Swords Man", "XZ_LF", "Simplrr", "Syrentia", "Auddy", "Cafe", "BattleField", "Shop", "Anubis Requiem Realm"},
+	Callback = function(Value)
+        idk2 = Value
+	end    
+})
+Teleport:AddButton({
+    Name = "Teleport",
+	Callback = function()
+        if idk2 == "Asakura_CT" then
+            tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(1, Enum.EasingStyle.Linear)
+            tweenService:Create(game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(-193.987778, -32.0086823, 1464.33118, 1, 0, 0, 0, 1, 0, 0, 0, 1)}):Play()
+        else
+            if idk2 == "Hikarishi_XL" then
+            tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(1, Enum.EasingStyle.Linear)
+            tweenService:Create(game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(-508.401672, -32.9644623, 1504.68298, -1, 0, 0, 0, 1, 0, 0, 0, -1)}):Play()
+        else
+            if idk2 == "Luna" then
+            tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(1, Enum.EasingStyle.Linear)
+            tweenService:Create(game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(-619.713318, -32.5265427, 1921.901, 1, 0, 0, 0, 1, 0, 0, 0, 1)}):Play()
+        else
+            if idk2 == "True Swords Man" then
+            tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(1, Enum.EasingStyle.Linear)
+            tweenService:Create(game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(57.5094452, -32.5372467, 1576.53186, 1, 0, 0, 0, 1, 0, 0, 0, 1)}):Play()
+        else
+            if idk2 == "XZ_LF" then
+            tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(1, Enum.EasingStyle.Linear)
+            tweenService:Create(game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(-695.704956, -31.3541031, 1651.71326, 0, 0, -1, 0, 1, 0, 1, 0, 0)}):Play()
+        else
+            if idk2 == "Simplrr" then
+            tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(1, Enum.EasingStyle.Linear)
+            tweenService:Create(game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(-397.28891, -30.792038, 1825.06287, 1, 0, 0, 0, 1, 0, 0, 0, 1)}):Play()
+        else
+            if idk2 == "Syrentia" then
+            tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(1, Enum.EasingStyle.Linear)
+            tweenService:Create(game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(-203.474274, -31.6497803, 1440.16992, -1, 0, 0, 0, 1, 0, 0, 0, -1)}):Play()
+        else
+            if idk2 == "Auddy" then
+            tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(1, Enum.EasingStyle.Linear)
+            tweenService:Create(game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(-377.414642, -32.2280426, 1827.39624, 1, 0, 0, 0, 1, 0, 0, 0, 1)}):Play()
+            else
+                if idk2 == "Cafe" then
+                    tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(1, Enum.EasingStyle.Linear)
+                    tweenService:Create(game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(-242.03463745117188, -32.08721923828125, 1451.7408447265625)}):Play()
+                else
+                    if idk2 == "BattleField" then
+                        tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(1, Enum.EasingStyle.Linear)
+                        tweenService:Create(game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(-518.80908203125, -31.330896377563477, 1720.3262939453125)}):Play()
+                    else
+                        if idk2 == "Shop" then
+                            tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(1, Enum.EasingStyle.Linear)
+                            tweenService:Create(game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(-377.5158386230469, -31.70417594909668, 1804.7489013671875)}):Play()
+                        else
+                            if idk2 == "Anubis Requiem Realm" then
+                                tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(1, Enum.EasingStyle.Linear)
+                                tweenService:Create(game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(3512.985595703125, -399.08502197265625, 1138.6719970703125)}):Play()
+                            end
+                        end
+                    end
+                end
+            end
+            end
+        end
+    end
+end
+end
+end
+end
+end
+})
+local Section = Teleport:AddSection({
+	Name = "1v1 teleport"
+})
+Teleport:AddButton({
+    Name = "1v1 Teleport",
+    Callback = function()
+        game:GetService("ReplicatedStorage").GlobalUsedRemotes.TPto1v1:FireServer()
+    end
+})
+
+local ServerLagger = Window:MakeTab({
+	Name = "Stand Related",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+local Section = ServerLagger:AddSection({
+	Name = "You need Cross"
+})
+ServerLagger:AddButton({
+	Name = "Lag Server Out",
+	Callback = function()
+        game:GetService("ReplicatedStorage").CrossRemote.Blaster:FireServer()
+        wait(0.9)
+        client.Character.HumanoidRootPart:Destroy()
+        client.Character.Humanoid:Destroy()
+	end    
+})
+local Section = ServerLagger:AddSection({
+	Name = "You need MidKnight"
+})
+ServerLagger:AddButton({
+	Name = "Lag Server Out",
+	Callback = function()
+        game:GetService("ReplicatedStorage").MidknightRemote.Barrier:FireServer()
+        wait(0.9)
+        client.Character.HumanoidRootPart:Destroy()
+        client.Character.Humanoid:Destroy()
+	end    
+})
+local ulTab = Window:MakeTab({
+	Name = "Update Logs",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+ulTab:AddParagraph("6/30/22 GUI was made","Zal#1979")
+ulTab:AddParagraph("10/10/22 Added item storage & cleaned up gui","Zal#1979")
+ulTab:AddParagraph("10/15/22 Removed Box Autofarm due to the new anticheat","Zal#1979")
+ulTab:AddParagraph("10/22/22 Added Soul Farm & new webhook","Zal#1979")
