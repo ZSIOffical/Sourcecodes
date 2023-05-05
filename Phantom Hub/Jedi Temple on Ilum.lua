@@ -60,7 +60,7 @@ if (hookfunction) then
             [2] = "Block",
             [3] = amount -- 100000 = max
         }
-        game:GetService("Players").legojoe1611.Character.Cake.RemoteEvent:FireServer(unpack(args))
+        game:GetService("Players").LocalPlayer.Character.Cake.RemoteEvent:FireServer(unpack(args))
     end
 
     function changeBlockForEveryone(amount)
@@ -71,7 +71,7 @@ if (hookfunction) then
                     [2] = "Block",
                     [3] = amount -- 100000 = max
                 }
-                game:GetService("Players").legojoe1611.Character.Cake.RemoteEvent:FireServer(unpack(args))
+                game:GetService("Players").LocalPlayer.Character.Cake.RemoteEvent:FireServer(unpack(args))
             end
         end
     end
