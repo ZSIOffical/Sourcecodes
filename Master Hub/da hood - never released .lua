@@ -1,3 +1,4 @@
+-- this shit is skidded asf thats why it was never released
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/elsiahrekeno/Xa1/main/src.lua"))()
 local Window = Library.Init({
     SavePosition = true -- true/false saves gui position on new execute
